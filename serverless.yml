@@ -1,0 +1,40 @@
+service: node-microservice
+
+custom:
+  NODE_ENV:
+    stage: staging
+    develop: development
+
+  API_KEY:
+    stage: staging
+    develop: development
+
+  SENTRY_DSN:
+    stage: node-microservice_stage
+    develop: node-microservice_develop
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  timeout: 180
+  lambdaHashingVersion: 20201221
+  logs:
+    httpApi: true
+  environment:
+    NODE_ENV: ${self:custom.NODE_ENV.${self:provider.stage}}
+    SENTRY_DSN: ${self:custom.SENTRY_DSN.${self:provider.stage}}
+    API_KEY: ${self:custom.API_KEY.${self:provider.stage}}
+
+  stage: ${opt:stage, 'develop'}
+  region: ap-south-1
+
+functions:
+  node-microservice:
+    handler: src/lambda.handler
+    events:
+      - http:
+          path: /{proxy+}
+          method: any
+          cors:
+            origin: "*"
+            headers: "*"
