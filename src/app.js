@@ -11,7 +11,7 @@ Sentry.init({
     new Sentry.Integrations.Http({ tracing: true }),
     new Tracing.Integrations.Express({ app }),
   ],
-  release: `notifications@${process.env.npm_package_version}`,
+  release: `node-microservice@${process.env.npm_package_version}`, // rename this
   autoSessionTracking: false,
   environment: process.env.NODE_ENV,
   tracesSampleRate: 1.0,
