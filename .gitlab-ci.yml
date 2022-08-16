@@ -1,53 +1,53 @@
-before_script:
-  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
-  - eval $(ssh-agent -s)
-  - ssh-add <(echo "$SSH_PRIVATE_KEY")
-  - mkdir -p ~/.ssh
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  - sudo npm i -g serverless
-  - cat ~/.ssh/config
-  - ls ~/.ssh
-  - mkdir ~/.aws/
-  - touch ~/.aws/credentials
-  - printf "[quoality]\naws_access_key_id = %s\naws_secret_access_key = %s\n" "$AWS_ACCESS_KEY_ID" "$AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
-  - rm -rf src/models/schema  
-  - git rm --cached src/models/schema
-  - git submodule add git@gitlab.com:quoality-dev/quoality-schema.git src/models/schema
-  - cd src/models/schema
-  - git fetch
-  - git config --global user.email "vikas@quoality.com"
-  - git config --global user.name "Vikas Chandra"
-  - npm i
-  
-develop:
-  environment: develop
-  image: "circleci/node"
-  script:        
-    - git checkout develop   
-    - git pull origin develop
-    - cd ../../../
-    - sls deploy --aws-profile quoality --stage develop
-  only:
-    - develop
+# before_script:
+#   - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+#   - eval $(ssh-agent -s)
+#   - ssh-add <(echo "$SSH_PRIVATE_KEY")
+#   - mkdir -p ~/.ssh
+#   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+#   - sudo npm i -g serverless
+#   - cat ~/.ssh/config
+#   - ls ~/.ssh
+#   - mkdir ~/.aws/
+#   - touch ~/.aws/credentials
+#   - printf "[quoality]\naws_access_key_id = %s\naws_secret_access_key = %s\n" "$AWS_ACCESS_KEY_ID" "$AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
+#   - rm -rf src/models/schema
+#   - git rm --cached src/models/schema
+#   - git submodule add git@gitlab.com:quoality-dev/quoality-schema.git src/models/schema
+#   - cd src/models/schema
+#   - git fetch
+#   - git config --global user.email "vikas@quoality.com"
+#   - git config --global user.name "Vikas Chandra"
+#   - npm i
 
-staging:
-  environment: staging
-  image: "circleci/node"
-  script:
-    - git checkout staging
-    - git pull origin staging
-    - cd ../../../
-    - sls deploy --aws-profile quoality --stage stage
-  only:
-    - staging
+# develop:
+#   environment: develop
+#   image: "circleci/node"
+#   script:
+#     - git checkout develop
+#     - git pull origin develop
+#     - cd ../../../
+#     - sls deploy --aws-profile quoality --stage develop
+#   only:
+#     - develop
 
-production:
-  environment: production
-  image: "circleci/node"
-  script:
-    - git checkout main
-    - git pull origin main
-    - cd ../../../
-    - sls deploy --aws-profile quoality --stage prod
-  only:
-    - main
+# staging:
+#   environment: staging
+#   image: "circleci/node"
+#   script:
+#     - git checkout staging
+#     - git pull origin staging
+#     - cd ../../../
+#     - sls deploy --aws-profile quoality --stage stage
+#   only:
+#     - staging
+
+# production:
+#   environment: production
+#   image: "circleci/node"
+#   script:
+#     - git checkout main
+#     - git pull origin main
+#     - cd ../../../
+#     - sls deploy --aws-profile quoality --stage prod
+#   only:
+#     - main
