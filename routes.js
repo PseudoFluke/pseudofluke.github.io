@@ -2,7 +2,7 @@ const { getAccessToken } = require("./utils");
 
 const router = require("express").Router();
 
-router.post("/token", async (req, res) => {
+router.get("/token", async (req, res) => {
   try {
     const token = await getAccessToken();
     return res.status(200).json(token);
