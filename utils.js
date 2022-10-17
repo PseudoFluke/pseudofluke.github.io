@@ -20,4 +20,3 @@ exports.getAccessToken = async () => {
     console.log(error);
   }
 };
-
