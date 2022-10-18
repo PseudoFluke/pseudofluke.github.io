@@ -46,16 +46,11 @@ router.post("/subscribe", async (req, res) => {
   try {
     const tokenData = await getAccessToken();
     const token = tokenData.access_token;
-    const res = await axios.post(
-      process.env.ADD_WEBHOOK_URL,
-      req.body,
-      {},
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
+    const res = await axios.post(process.env.ADD_WEBHOOK_URL, req.body, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
     return res.status(200).json(res.data);
   } catch (error) {
     return res.status(500).json(error);
