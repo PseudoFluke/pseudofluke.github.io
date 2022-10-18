@@ -44,7 +44,18 @@ router.get("/historicalbookings", async (req, res) => {
 //SUBSCRIBE TO A WEBHOOK
 router.post("/subscribe", async (req, res) => {
   try {
-    const res = await axios.post(process.env.ADD_WEBHOOK_URL, req.body);
+    const tokenData = await getAccessToken();
+    const token = tokenData.access_token;
+    const res = await axios.post(
+      process.env.ADD_WEBHOOK_URL,
+      req.body,
+      {},
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
     return res.status(200).json(res.data);
   } catch (error) {
     return res.status(500).json(error);
