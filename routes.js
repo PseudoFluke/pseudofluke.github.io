@@ -32,6 +32,7 @@ router.get("/historicalbookings", async (req, res) => {
         },
       }
     );
+    console.log(bookings);
     return res.status(200).json(bookings);
   } catch (error) {
     return res.status(500).json(error);
