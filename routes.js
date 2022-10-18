@@ -26,9 +26,6 @@ router.get("/historicalbookings", async (req, res) => {
     const bookings = await axios.get(
       process.env.BASE_URL + "/booking/v1/reservations",
       {
-        data: params,
-      },
-      {
         headers: {
           Authorization: "Bearer " + token,
         },
