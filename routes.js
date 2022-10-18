@@ -57,4 +57,9 @@ router.post("/subscribe", async (req, res) => {
   }
 });
 
+//READ INCOMING NOTIFICATIONS FOR BOOKINGS
+router.post("/bookingsweb", async (req, res) => {
+  return res.status(200).send("Success!");
+});
+
 module.exports = router;
