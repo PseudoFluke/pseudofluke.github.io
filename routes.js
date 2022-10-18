@@ -30,6 +30,7 @@ router.get("/historicalbookings", async (req, res) => {
         headers: {
           Authorization: "Bearer " + token,
         },
+        params,
       }
     );
     return res.status(200).json(bookings.data);
