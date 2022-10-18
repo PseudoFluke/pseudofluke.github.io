@@ -60,7 +60,7 @@ router.post("/subscribe", async (req, res) => {
 //READ INCOMING NOTIFICATIONS FOR BOOKINGS
 router.post("/bookingsweb", async (req, res) => {
   try {
-    console.log(req);
+    console.log(req.body);
     return res.status(200);
   } catch (error) {
     return res.status(500).json(error);
