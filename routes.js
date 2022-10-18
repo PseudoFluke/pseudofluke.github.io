@@ -1,4 +1,5 @@
 const axios = require("axios");
+const querystring = require("querystring");
 const { getAccessToken } = require("./utils");
 
 const router = require("express").Router();
@@ -23,9 +24,7 @@ router.get("/historicalbookings", async (req, res) => {
     };
     const bookings = await axios.get(
       process.env.BASE_URL + "/booking/v1/reservations",
-      {
-        params: params,
-      }
+      querystring.stringify(params)
     );
     return res.status(200).json(bookings);
   } catch (error) {
