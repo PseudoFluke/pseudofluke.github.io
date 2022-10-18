@@ -21,11 +21,12 @@ router.get("/historicalbookings", async (req, res) => {
       from: "2022-03-08T05:48:31Z",
       to: "2022-08-08T05:48:31Z",
     };
-    const bookings = await axios.request({
-      url: process.env.BASE_URL + "/booking/v1/reservations",
-      method: "get",
-      params: params,
-    });
+    const bookings = await axios.get(
+      process.env.BASE_URL + "/booking/v1/reservations",
+      {
+        params: params,
+      }
+    );
     return res.status(200).json(bookings);
   } catch (error) {
     return res.status(500).json(error);
