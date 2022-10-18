@@ -4,6 +4,7 @@ const { getAccessToken } = require("./utils");
 
 const router = require("express").Router();
 
+//FETCH ACCESS TOKEN FOR API REQUESTS
 router.get("/token", async (req, res) => {
   try {
     const token = await getAccessToken();
@@ -13,6 +14,7 @@ router.get("/token", async (req, res) => {
   }
 });
 
+//FETCH BOOKINGS BY FILTERING THEM BASED ON CERTAIN DATES
 router.get("/historicalbookings", async (req, res) => {
   try {
     const fromDate = "2022-03-08T05:48:31Z";
@@ -34,6 +36,16 @@ router.get("/historicalbookings", async (req, res) => {
       }
     );
     return res.status(200).json(bookings.data);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
+
+//SUBSCRIBE TO A WEBHOOK
+router.post("/subscribe", async (req, res) => {
+  try {
+    const res = await axios.post(process.env.ADD_WEBHOOK_URL, req.body);
+    return res.status(200).json(res.data);
   } catch (error) {
     return res.status(500).json(error);
   }
