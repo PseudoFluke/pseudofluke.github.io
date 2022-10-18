@@ -22,7 +22,8 @@ router.get("/historicalbookings", async (req, res) => {
       from: "2022-03-08T05:48:31Z",
       to: "2022-08-08T05:48:31Z",
     };
-    const token = await getAccessToken();
+    const tokenData = await getAccessToken();
+    const token = tokenData.access_token;
     const bookings = await axios.get(
       process.env.BASE_URL + "/booking/v1/reservations",
       {
