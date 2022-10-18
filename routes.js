@@ -59,7 +59,12 @@ router.post("/subscribe", async (req, res) => {
 
 //READ INCOMING NOTIFICATIONS FOR BOOKINGS
 router.post("/bookingsweb", async (req, res) => {
-  return res.status(200).send("Success!");
+  try {
+    console.log(req);
+    return res.status(200);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 });
 
 module.exports = router;
