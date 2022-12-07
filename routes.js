@@ -26,14 +26,15 @@ router.get("/historicalbookings", async (req, res) => {
     };
     const tokenData = await getAccessToken();
     const token = tokenData.access_token;
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      params,
+    };
     const bookings = await axios.get(
       process.env.BASE_URL + "/booking/v1/reservations",
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-        params,
-      }
+      config
     );
     return res.status(200).json(bookings.data);
   } catch (error) {
