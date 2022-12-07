@@ -3,10 +3,7 @@ const { doSomething } = require("../../libs/custom");
 
 exports.customController = async (res) => {
   //=> these are the data we get in controller args
-
-  const { body, query, headers, params } = res;
-
-  doSomething();
+  console.log("Endpoint hit!");
 
   return {
     status: 200,

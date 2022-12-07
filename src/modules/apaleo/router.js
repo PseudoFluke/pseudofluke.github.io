@@ -8,9 +8,7 @@ const { customInputContract } = require("./contract");
 const router = Router();
 
 router.post(
-  "/",
-  checkApiKey,
-  validate(customInputContract),
+  "/getreservations",
   controller.customController
 );
 
