@@ -2,7 +2,7 @@ const { Router } = require("express");
 
 const router = Router();
 
-const custom = require("../modules/custom/router");
+const custom = require("../modules/apaleo/router");
 
 router.use("/custom", custom);
 

@@ -1,7 +1,8 @@
-service: node-microservice
+service: apaleo
 
 custom:
   NODE_ENV:
+    prod: production
     stage: staging
     develop: development
 
@@ -10,8 +11,34 @@ custom:
     develop: development
 
   SENTRY_DSN:
-    stage: node-microservice_stage
-    develop: node-microservice_develop
+    prod: apaleo_production
+    stage: apaleo_stage
+    develop: apaleo_develop
+
+  PMS_NAME:
+    prod: apaleo
+    stage: apaleo
+    develop: apaleo
+
+  ES_ENDPOINT:
+    prod: https://quoality.es.asia-south1.gcp.elastic-cloud.com:9243
+    stage: https://quoality.es.asia-south1.gcp.elastic-cloud.com:9243
+    develop: https://quoality.es.asia-south1.gcp.elastic-cloud.com:9243
+
+  ES_USERNAME:
+    prod: elastic
+    stage: elastic
+    develop: elastic
+
+  ES_PASSWORD:
+    prod: N4X7zo79o6SrtbwIE9KftFMZ
+    stage: N4X7zo79o6SrtbwIE9KftFMZ
+    develop: N4X7zo79o6SrtbwIE9KftFMZ
+
+  BATCH_SIZE:
+    prod: 4
+    stage: 4
+    develop: 4
 
 provider:
   name: aws
@@ -24,6 +51,24 @@ provider:
     NODE_ENV: ${self:custom.NODE_ENV.${self:provider.stage}}
     SENTRY_DSN: ${self:custom.SENTRY_DSN.${self:provider.stage}}
     API_KEY: ${self:custom.API_KEY.${self:provider.stage}}
+    ES_INDEX: ${self:custom.ES_INDEX.${self:provider.stage}}
+    ES_ENDPOINT: ${self:custom.ES_ENDPOINT.${self:provider.stage}}
+    ES_USERNAME: ${self:custom.ES_USERNAME.${self:provider.stage}}
+    ES_PASSWORD: ${self:custom.ES_PASSWORD.${self:provider.stage}}
+    RAW_QUEUE_URL: { Ref: rawQueue }
+    FROMATTER_QUEUE_URL: { Ref: formatterQueue }
+    BATCH_SIZE: ${self:custom.BATCH_SIZE.${self:provider.stage}}
+    REGION: ${self:provider.region}
+    PMS_NAME: ${self:custom.PMS_NAME.${self:provider.stage}}
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+        - sqs:ReceiveMessage
+      Resource:
+        - Fn::GetAtt: [rawQueue, Arn]
+        - Fn::GetAtt: [formatterQueue, Arn]
 
   stage: ${opt:stage, 'develop'}
   region: ap-south-1
